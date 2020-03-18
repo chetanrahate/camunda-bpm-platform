@@ -38,7 +38,6 @@
         enumValues=[]
         defaultValue="" <#-- it will work for boolean, integer, string -->
         minimum=""
-        required=false
         deprecated=false
         additionalProperties=false
         itemType="string"
@@ -69,10 +68,6 @@
 
         <#if minimum?has_content>
           "minimum": ${minimum},
-        </#if>
-
-        <#if required>
-          "required": true,
         </#if>
 
         <#if deprecated>
