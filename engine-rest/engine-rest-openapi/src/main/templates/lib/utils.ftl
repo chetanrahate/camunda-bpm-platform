@@ -1,3 +1,4 @@
+<!-- Generates a Query String Parameter JSON object -->
 <#macro parameter name location type desc
         enumValues=[]
         defaultValue="" <#-- it will work for boolean, integer, string -->
@@ -31,6 +32,7 @@
   <#if !last> , </#if> <#-- if not a last parameter add a comma-->
 </#macro>
 
+<!-- Generates a DTO Property JSON object -->
 <#macro property name type
         desc=""
         enumValues=[]
@@ -104,6 +106,27 @@
     <#if !last> , </#if> <#-- if not a last property add a comma-->
 </#macro>
 
+<!-- Generates a DTO JSON object -->
+<#macro dto
+        type="object"
+        desc=""
+        required=[]>
+  {
+    "type": "${type}",
+
+    <#if required?size != 0>
+      "required": [
+        ${required?join(", ")}
+      ],
+    </#if>
+
+    "properties": {
+      <#nested>
+    }
+  }
+</#macro>
+
+<!-- Generates a Request Body JSON object -->
 <#macro requestBody mediaType dto
         requestDesc=""
         examples=[] >
@@ -131,6 +154,7 @@
   },
 </#macro>
 
+<!-- Generates an HTTP Response JSON object -->
 <#macro response code desc
         dto="ExceptionDto"
         array=false
@@ -195,6 +219,7 @@
     <#if !last> , </#if> <#-- if not the last entry, add a comma -->
 </#macro>
 
+<!-- Generates an Operation Information JSON object -->
 <#macro endpointInfo
         id
         tag
@@ -206,6 +231,7 @@
     "description": "${removeIndentation(desc)}",
 </#macro>
 
+<!-- Removes source formatting indentations from descriptions -->
 <#function removeIndentation text>
   <#return text?replace('\n( ){2,}', '\n', 'r') >
 </#function>
